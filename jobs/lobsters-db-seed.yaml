@@ -1,11 +1,8 @@
-apiVersion: extensions/v1beta1
+apiVersion: batch/v1
 kind: Job
 metadata:
   name: lobsters-db-seed
 spec:
-  selector:
-    matchLabels:
-      task: db-seed
   template:
     metadata:
       name: lobsters-db-seed
@@ -25,4 +22,8 @@ spec:
           command:
             - "/usr/local/bundle/bin/rake"
             - "db:seed"
+          resources:
+            requests:
+              cpu: 0.5m
+              memory: 100m
       restartPolicy: Never

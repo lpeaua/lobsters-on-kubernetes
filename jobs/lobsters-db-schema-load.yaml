@@ -1,16 +1,13 @@
-apiVersion: extensions/v1beta1
+apiVersion: batch/v1
 kind: Job
 metadata:
   name: lobsters-db-schema-load
 spec:
-  selector:
-    matchLabels:
-      task: db-schema-load
   template:
     metadata:
       name: lobsters-db-schema-load
       labels:
-        task: db-schema-load
+        task: lobsters-db-schema-load
     spec:
       containers:
         - name: lobsters
@@ -25,4 +22,8 @@ spec:
           command:
             - "/usr/local/bundle/bin/rake"
             - "db:schema:load"
+          resources:
+            requests:
+              cpu: 0.5m
+              memory: 100m
       restartPolicy: Never
